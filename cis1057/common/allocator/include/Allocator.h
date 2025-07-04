@@ -31,16 +31,6 @@ typedef struct Allocator Allocator;
 Allocator *Allocator_new(void);
 
 /**
- * @brief Destroy an allocator and free all its memory
- * 
- * Releases all memory associated with the allocator, including the internal
- * memory pool and any objects allocated from it.
- * 
- * @param allocator Allocator to destroy (may be NULL)
- */
-void Allocator_free(Allocator *allocator);
-
-/**
  * @brief Allocate memory from the allocator
  * 
  * Allocates a contiguous block of memory from the allocator's memory pool.
@@ -51,7 +41,7 @@ void Allocator_free(Allocator *allocator);
  * @param size Number of bytes to allocate
  * @return Pointer to allocated memory, or NULL if allocation fails
  */
-void *Allocator_push(Allocator *allocator, size_t size);
+void *Allocator_push(Allocator *alloc, ptrdiff_t size);
 
 /**
  * @brief Deallocate the most recently allocated memory
@@ -62,7 +52,7 @@ void *Allocator_push(Allocator *allocator, size_t size);
  * @param allocator Allocator to deallocate from
  * @param size Number of bytes to deallocate (must match recent allocations)
  */
-void Allocator_pop(Allocator *allocator, size_t size);
+void Allocator_pop(Allocator *alloc, size_t size);
 
 /**
  * @brief Reset allocator to empty state
@@ -73,7 +63,7 @@ void Allocator_pop(Allocator *allocator, size_t size);
  * 
  * @param allocator Allocator to clear
  */
-void Allocator_clear(Allocator *allocator);
+void Allocator_clear(Allocator *alloc);
 
 /**
  * @brief Get current memory usage
@@ -84,6 +74,6 @@ void Allocator_clear(Allocator *allocator);
  * @param allocator Allocator to query
  * @return Number of bytes currently allocated
  */
-size_t Allocator_used(Allocator *allocator);
+size_t Allocator_used(Allocator *alloc);
 
 #endif /* ALLOCATOR_H */
