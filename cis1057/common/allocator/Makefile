@@ -8,14 +8,22 @@ INCLUDES = -Iinclude -I../
 # Detect OS for cross-platform commands
 ifeq ($(OS),Windows_NT)
     MKDIR = if not exist "$@" mkdir "$@"
+<<<<<<< Updated upstream
     RMDIR = if exist "$(1)" rmdir /s /q "$(1)" 2>nul || echo.
     RM = del /q
     EXE = .exe
+=======
+    RMDIR = if exist "$(1)" rmdir /s /q "$(1)"
+    RM = del /q
+>>>>>>> Stashed changes
 else
     MKDIR = mkdir -p $@
     RMDIR = rm -rf $(1)
     RM = rm -f
+<<<<<<< Updated upstream
     EXE =
+=======
+>>>>>>> Stashed changes
 endif
 
 # Source and object directories
@@ -45,6 +53,7 @@ $(OBJDIR)/%.o: $(SRCDIR)/%.c | $(OBJDIR)
 
 # Build test executables
 $(BINDIR)/%: $(TESTDIR)/%.c $(OBJECTS) | $(BINDIR)
+<<<<<<< Updated upstream
 	$(CC) $(CFLAGS) $(INCLUDES) $< $(OBJECTS) -o $@$(EXE)
 
 # Run specific tests
@@ -62,12 +71,25 @@ ifeq ($(OS),Windows_NT)
 	@.\$(BINDIR)\test_allocator.exe
 	@echo.
 else
+=======
+	$(CC) $(CFLAGS) $(INCLUDES) $< $(OBJECTS) -o $@
+
+# Run specific tests
+test-allocator: $(BINDIR)/test_allocator
+	./$(BINDIR)/test_allocator
+
+# Run all tests
+test: $(TEST_BINARIES)
+>>>>>>> Stashed changes
 	@for test in $(TEST_BINARIES); do \
 		echo "Running $$test..."; \
 		./$$test; \
 		echo; \
 	done
+<<<<<<< Updated upstream
 endif
+=======
+>>>>>>> Stashed changes
 
 # Clean build artifacts
 clean:
@@ -78,4 +100,8 @@ clean:
 .PHONY: all test test-allocator clean
 
 # Dependencies
+<<<<<<< Updated upstream
 $(BINDIR)/test_allocator$(EXE): $(OBJDIR)/Allocator.o
+=======
+$(BINDIR)/test_allocator: $(OBJDIR)/Allocator.o
+>>>>>>> Stashed changes

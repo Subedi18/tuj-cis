@@ -31,6 +31,19 @@ typedef struct Allocator Allocator;
 Allocator *Allocator_new(void);
 
 /**
+<<<<<<< Updated upstream
+=======
+ * @brief Destroy an allocator and free all its memory
+ * 
+ * Releases all memory associated with the allocator, including the internal
+ * memory pool and any objects allocated from it.
+ * 
+ * @param allocator Allocator to destroy (may be NULL)
+ */
+void Allocator_free(Allocator *allocator);
+
+/**
+>>>>>>> Stashed changes
  * @brief Allocate memory from the allocator
  * 
  * Allocates a contiguous block of memory from the allocator's memory pool.
@@ -41,7 +54,11 @@ Allocator *Allocator_new(void);
  * @param size Number of bytes to allocate
  * @return Pointer to allocated memory, or NULL if allocation fails
  */
+<<<<<<< Updated upstream
 void *Allocator_push(Allocator *alloc, ptrdiff_t size);
+=======
+void *Allocator_push(Allocator *allocator, size_t size);
+>>>>>>> Stashed changes
 
 /**
  * @brief Deallocate the most recently allocated memory
@@ -52,7 +69,11 @@ void *Allocator_push(Allocator *alloc, ptrdiff_t size);
  * @param allocator Allocator to deallocate from
  * @param size Number of bytes to deallocate (must match recent allocations)
  */
+<<<<<<< Updated upstream
 void Allocator_pop(Allocator *alloc, size_t size);
+=======
+void Allocator_pop(Allocator *allocator, size_t size);
+>>>>>>> Stashed changes
 
 /**
  * @brief Reset allocator to empty state
@@ -63,7 +84,11 @@ void Allocator_pop(Allocator *alloc, size_t size);
  * 
  * @param allocator Allocator to clear
  */
+<<<<<<< Updated upstream
 void Allocator_clear(Allocator *alloc);
+=======
+void Allocator_clear(Allocator *allocator);
+>>>>>>> Stashed changes
 
 /**
  * @brief Get current memory usage
@@ -74,6 +99,10 @@ void Allocator_clear(Allocator *alloc);
  * @param allocator Allocator to query
  * @return Number of bytes currently allocated
  */
+<<<<<<< Updated upstream
 size_t Allocator_used(Allocator *alloc);
+=======
+size_t Allocator_used(Allocator *allocator);
+>>>>>>> Stashed changes
 
 #endif /* ALLOCATOR_H */

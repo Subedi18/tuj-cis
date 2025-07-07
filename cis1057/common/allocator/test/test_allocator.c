@@ -47,11 +47,19 @@ static int test_allocator_creation(void)
         ASSERT_EQ(0, Allocator_used(alloc), "New allocator should have zero usage");
         
         /* Test destruction with valid allocator */
+<<<<<<< Updated upstream
         free(alloc);
     }
     
     /* Test destruction with NULL allocator */
     free(NULL);
+=======
+        Allocator_free(alloc);
+    }
+    
+    /* Test destruction with NULL allocator */
+    Allocator_free(NULL);
+>>>>>>> Stashed changes
     /* No assertion needed - should handle NULL gracefully */
     
     printf("\n");
@@ -105,7 +113,11 @@ static int test_basic_allocation(void)
         }
     }
     
+<<<<<<< Updated upstream
     free(alloc);
+=======
+    Allocator_free(alloc);
+>>>>>>> Stashed changes
     printf("\n");
     return (tests_passed > initial_passed && ptr1 != NULL);
 }
@@ -140,7 +152,11 @@ static void test_allocation_alignment(void)
         }
     }
     
+<<<<<<< Updated upstream
     free(alloc);
+=======
+    Allocator_free(alloc);
+>>>>>>> Stashed changes
     printf("\n");
 }
 
@@ -179,7 +195,11 @@ static void test_stack_behavior(void)
     ASSERT_NOT_NULL(ptr4, "Allocation after pop should succeed");
     ASSERT_EQ(50, Allocator_used(alloc), "Usage should reflect new allocation");
     
+<<<<<<< Updated upstream
     free(alloc);
+=======
+    Allocator_free(alloc);
+>>>>>>> Stashed changes
     printf("\n");
 }
 
@@ -217,7 +237,11 @@ static void test_clear_functionality(void)
     Allocator_clear(alloc);
     ASSERT_EQ(0, Allocator_used(alloc), "Multiple clears should be safe");
     
+<<<<<<< Updated upstream
     free(alloc);
+=======
+    Allocator_free(alloc);
+>>>>>>> Stashed changes
     printf("\n");
 }
 
@@ -255,7 +279,11 @@ static void test_usage_tracking(void)
     ASSERT_EQ(total_expected, Allocator_used(alloc), 
               "Usage should continue tracking correctly");
     
+<<<<<<< Updated upstream
     free(alloc);
+=======
+    Allocator_free(alloc);
+>>>>>>> Stashed changes
     printf("\n");
 }
 
@@ -296,7 +324,11 @@ static void test_error_conditions(void)
     ASSERT_TRUE(ptr != NULL || Allocator_used(alloc) == 0, 
                 "Large allocation should be handled gracefully");
     
+<<<<<<< Updated upstream
     free(alloc);
+=======
+    Allocator_free(alloc);
+>>>>>>> Stashed changes
     printf("\n");
 }
 
@@ -338,7 +370,11 @@ static void test_memory_patterns(void)
         ASSERT_EQ(i * i, buffer2[i], "Second buffer should contain correct values");
     }
     
+<<<<<<< Updated upstream
     free(alloc);
+=======
+    Allocator_free(alloc);
+>>>>>>> Stashed changes
     printf("\n");
 }
 
@@ -380,7 +416,11 @@ static void test_performance_characteristics(void)
     void* ptr = Allocator_push(alloc, 1024);
     ASSERT_NOT_NULL(ptr, "Allocation after clear should succeed");
     
+<<<<<<< Updated upstream
     free(alloc);
+=======
+    Allocator_free(alloc);
+>>>>>>> Stashed changes
     printf("\n");
 }
 
