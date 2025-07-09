@@ -56,4 +56,4 @@ CLAUDE.md
 
 # Build directories
 bin/
-obj/
+obj/.DS_Store
