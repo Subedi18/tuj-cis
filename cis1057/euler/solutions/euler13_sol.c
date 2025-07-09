@@ -12,7 +12,7 @@
  * (Input data available in data/euler13.txt)
  */
 
-#define INPUT_FILE "data/euler13.txt"
+#define INPUT_FILE "../data/euler13.txt"
 #define COUNT 100
 #define DIGITS 50
 
@@ -60,9 +60,25 @@ int load_data(char *path, int lines, int length, char data[lines][length + 1]) {
 }
 
 void reverse(char *string, int length) {
-    // TODO: implement this
+    for (int i = 0, j = length - 1; i < j; i++, j--) {
+        char temp = string[i];
+        string[i] = string[j];
+        string[j] = temp;
+    }
 }
 
 void add_into(char *sum, char *addend) {
-    // TODO: implement this
+    for (int i = 0, carry = 0, add_flag = 1, sum_flag = 1; add_flag || sum_flag; i++) {
+        add_flag = add_flag && addend[i];
+        sum_flag = sum_flag && sum[i];
+        int subtotal = (add_flag ? addend[i] : '0') + carry - '0';
+        if (subtotal) {
+            sum[i] = (sum_flag ? sum[i] : '0') + subtotal;
+            carry = sum[i] > '9';
+            sum[i] -= carry * 10;
+        } else if (!add_flag) {
+            if (!sum_flag) sum[i] = 0; // Finished, insert null byte at end of sum if necessary
+            break;
+        } else if (!sum_flag) sum[i] = '0'; // More digits to add, extend sum with '0'
+    }
 }
