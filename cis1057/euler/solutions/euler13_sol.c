@@ -1,4 +1,3 @@
-#include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
 #include <errno.h>
@@ -11,6 +10,7 @@
  * 50-digit numbers.
  * (Input data available in data/euler13.txt)
  */
+#include <stdlib.h>
 
 #define INPUT_FILE "../data/euler13.txt"
 #define COUNT 100
