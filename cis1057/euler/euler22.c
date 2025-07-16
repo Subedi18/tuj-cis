@@ -19,13 +19,32 @@
  */
 
 #define INPUT_FILE "data/euler22.txt"
+#define BUFFER_SIZE (1<<16)
+#define NAME_LIMIT 60000
 
 int main(int argc, char *argv[]) {
-    // Open input file
     FILE *file = open_file(INPUT_FILE);
+    char buffer[BUFFER_SIZE] = {0};
+    char *name[NAME_LIMIT] = {0};
 
-    // Close input file
-    fclose(file);
+    int c, b = 0, n = 0;
+    while((c = fgetc(file)) != EOF) {
+        if (name[n]) {
+            if(c == '"') {
+                buffer[b] = '\0';
+                n++;
+            } else {
+                buffer[b++] = c;
+            }
+        } else if (c == '"') {
+            name[n] = &buffer[b];
+        }
+    }
     
+    for (int i = 0; i < NAME_LIMIT && name[i]; i++) {
+        puts(name[i]);
+    }
+    
+    fclose(file);
     return EXIT_SUCCESS;
 }
