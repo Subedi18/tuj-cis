@@ -1,8 +1,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
-#include "utils/files.h"
-
+#include "../utils/files.h"
 /**
  * PROJECT EULER #22
  * Names Scores
