@@ -1,5 +1,4 @@
-#include <stdlib.h>
-#include <stdio.h>
+
 
 /**
  * PROJECT EULER #17
@@ -17,6 +16,78 @@
  * compliance with British usage.
  */
 
-int main(int argc, char *argv[]) {
-    return EXIT_SUCCESS;
+#include <stdlib.h>
+#include <stdio.h>
+#include <string.h>
+#include <ctype.h>
+
+char* ones[] = {
+    "", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine",
+    "ten", "eleven", "twelve", "thirteen", "fourteen", "fifteen",
+    "sixteen", "seventeen", "eighteen", "nineteen"
+};
+
+char* tens[] = {
+    "", "", "twenty", "thirty", "forty", "fifty",
+    "sixty", "seventy", "eighty", "ninety"
+};
+
+// Convert number to readable word form with spaces/hyphens
+void numberToWordsFormatted(int n, char* formatted) {
+    formatted[0] = '\0'; // Clear output string
+
+    if (n == 1000) {
+        strcat(formatted, "one thousand");
+        return;
+    }
+
+    if (n >= 100) {
+        strcat(formatted, ones[n / 100]);
+        strcat(formatted, " hundred");
+        if (n % 100 != 0) {
+            strcat(formatted, " and ");
+        }
+        n %= 100;
+    }
+
+    if (n >= 20) {
+        strcat(formatted, tens[n / 10]);
+        if (n % 10 != 0) {
+            strcat(formatted, "-");
+            strcat(formatted, ones[n % 10]);
+        }
+    } else if (n > 0) {
+        strcat(formatted, ones[n]);
+    }
+}
+
+
+int countLetters(const char* word) {
+    int count = 0;
+    for (int i = 0; word[i] != '\0'; i++) {
+        if (isalpha(word[i])) {
+            count++;
+        }
+    }
+    return count;
+}
+
+
+int main() {
+    int number;
+    char formatted[100];
+
+    printf("Enter a number between 1 and 1000: ");
+    scanf("%d", &number);
+
+    if (number < 1 || number > 1000) {
+        printf("Out of range. Try again.\n");
+        return 1;
+    }
+
+    numberToWordsFormatted(number, formatted);
+    printf("In words          : %s\n", formatted);
+    printf("Number of letters : %d\n", countLetters(formatted));
+
+    return 0;
 }
