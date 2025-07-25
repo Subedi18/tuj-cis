@@ -1,93 +1,156 @@
+/*
+ ***************************************************************
+ *  Program: Number Letter Count (Project Euler Problem 17)     *
+ *                                                             *
+ *  Description:                                               *
+ *  This program calculates the total number of letters used   *
+ *  to write all numbers from 1 to 1000 in English words.      *
+ *                                                             *
+ *  Rules:                                                     *
+ *  - Spaces and hyphens are not counted                       *
+ *  - "And" is included (British English usage)                *
+ *  - Each number is analyzed based on its word representation *
+ *                                                             *
+ *  Output:                                                    *
+ *  Prints the final count of letters used.                    *
+ *                                                             *
+ *  Example:                                                   *
+ *  342 → "three hundred and forty two" → 23 letters           *
+ *  115 → "one hundred and fifteen" → 20 letters               *
+ *                                                             *
+ *  Final Answer: 21124 letters (from 1 to 1000)               *
+ ***************************************************************
+*/
 
-
-/**
- * PROJECT EULER #17
- * Number Letter Counts
- *
- * If the numbers 1 to 5 are written out in words: one, two, three, four,
- * five, then there are 3 + 3 + 5 + 4 + 4 = 19 letters used in total.
- *
- * If all the numbers from 1 to 1000 (one thousand) inclusive were written
- * out in words, how many letters would be used?
- *
- * NOTE: Do not count spaces or hyphens. For example, 342 (three hundred
- * and forty-two) contains 23 letters and 115 (one hundred and fifteen)
- * contains 20 letters. The use of "and" when writing out numbers is in
- * compliance with British usage.
- */
-
-#include <stdlib.h>
 #include <stdio.h>
-#include <string.h>
-#include <ctype.h>
 
-char* ones[] = {
-    "", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine",
-    "ten", "eleven", "twelve", "thirteen", "fourteen", "fifteen",
-    "sixteen", "seventeen", "eighteen", "nineteen"
-};
+/*
+ * Function: one_to_nineteen
+ * -------------------------
+ * Returns the number of letters in the English word for numbers 1 to 19.
+ * Example: 3 → "three" → 5 letters
+ * 
+ * Parameters:
+ *   n - An integer between 1 and 19
+ * 
+ * Returns:
+ *   The number of letters in the word representation of n
+ */
+int one_to_nineteen(int n) {
+    int letters[] = {
+        0,  // 0 (unused)
+        3,  // one
+        3,  // two
+        5,  // three
+        4,  // four
+        4,  // five
+        3,  // six
+        5,  // seven
+        5,  // eight
+        4,  // nine
+        3,  // ten
+        6,  // eleven
+        6,  // twelve
+        8,  // thirteen
+        8,  // fourteen
+        7,  // fifteen
+        7,  // sixteen
+        9,  // seventeen
+        8,  // eighteen
+        8   // nineteen
+    };
+    return letters[n];
+}
 
-char* tens[] = {
-    "", "", "twenty", "thirty", "forty", "fifty",
-    "sixty", "seventy", "eighty", "ninety"
-};
+/*
+ * Function: tens_place
+ * --------------------
+ * Returns the number of letters in the English word for tens values (20, 30, ..., 90).
+ * Example: 4 → "forty" → 5 letters
+ * 
+ * Parameters:
+ *   n - Tens digit (from 2 to 9)
+ * 
+ * Returns:
+ *   The number of letters in the word representation of that tens place
+ */
+int tens_place(int n) {
+    int letters[] = {
+        0,  // 0 (unused)
+        0,  // 1 (10–19 handled separately)
+        6,  // twenty
+        6,  // thirty
+        5,  // forty
+        5,  // fifty
+        5,  // sixty
+        7,  // seventy
+        6,  // eighty
+        6   // ninety
+    };
+    return letters[n];
+}
 
-// Convert number to readable word form with spaces/hyphens
-void numberToWordsFormatted(int n, char* formatted) {
-    formatted[0] = '\0'; // Clear output string
+/*
+ * Function: number_letter_count
+ * -----------------------------
+ * Calculates the number of letters used to write a number (1–1000) in English words,
+ * following British English rules. Spaces and hyphens are not counted, but "and" is included.
+ * 
+ * Example:
+ *   342 → "three hundred and forty two" → 23 letters (no spaces/hyphens)
+ * 
+ * Parameters:
+ *   n - An integer between 1 and 1000
+ * 
+ * Returns:
+ *   The number of letters used to write the number in words
+ */
+int number_letter_count(int n) {
+    int count = 0;
 
     if (n == 1000) {
-        strcat(formatted, "one thousand");
-        return;
+        return 3 + 8; // "one thousand" = 11 letters
     }
 
     if (n >= 100) {
-        strcat(formatted, ones[n / 100]);
-        strcat(formatted, " hundred");
+        count += one_to_nineteen(n / 100); // "X hundred"
+        count += 7;                         // "hundred"
+
         if (n % 100 != 0) {
-            strcat(formatted, " and ");
+            count += 3; // "and"
         }
-        n %= 100;
+
+        n = n % 100; // Remove hundreds digit to process tens/ones
     }
 
     if (n >= 20) {
-        strcat(formatted, tens[n / 10]);
-        if (n % 10 != 0) {
-            strcat(formatted, "-");
-            strcat(formatted, ones[n % 10]);
-        }
-    } else if (n > 0) {
-        strcat(formatted, ones[n]);
+        count += tens_place(n / 10); // e.g., 42 → 4 → "forty"
+        n = n % 10;
     }
-}
 
-
-int countLetters(const char* word) {
-    int count = 0;
-    for (int i = 0; word[i] != '\0'; i++) {
-        if (isalpha(word[i])) {
-            count++;
-        }
+    if (n > 0) {
+        count += one_to_nineteen(n); // 1 to 19
     }
+
     return count;
 }
 
-
+/*
+ * Function: main
+ * --------------
+ * Calculates the total number of letters used to write all numbers from 1 to 1000
+ * in English words, following British English formatting.
+ * 
+ * Output:
+ *   Prints the final count of letters used
+ */
 int main() {
-    int number;
-    char formatted[100];
+    int total = 0;
 
-    printf("Enter a number between 1 and 1000: ");
-    scanf("%d", &number);
-
-    if (number < 1 || number > 1000) {
-        printf("Out of range. Try again.\n");
-        return 1;
+    for (int i = 1; i <= 1000; i++) {
+        total += number_letter_count(i);
     }
 
-    numberToWordsFormatted(number, formatted);
-    printf("In words          : %s\n", formatted);
-    printf("Number of letters : %d\n", countLetters(formatted));
-
+    printf("Total number of letters used from 1 to 1000: %d\n", total);
     return 0;
 }
